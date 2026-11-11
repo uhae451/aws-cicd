@@ -25,7 +25,7 @@ jobs:
       - name: AWS 인증 (OIDC — 키 없음)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::138605533589:role/github-actions-bookstore
+          role-to-assume: arn:aws:iam::138605533589:role/github-actions-aws
           aws-region: ${{ env.AWS_REGION }}
 
       - name: ECR 로그인
