@@ -1,33 +1,19 @@
 services:
-  db:
-    image: postgres:16
-    container_name: pg-bookstore
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD : postgres
-      POSTGRES_DB : db_project
-    ports:
-      - "5433:5432"
-    volumes:
-      - bookstore-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
   app:
     build: .
     container_name: bookstore-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_project
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_BUCKET: ${S3_BUCKET}
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://${DB_URL}:5432/aws_study"
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     ports:
       - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
+
 
   # ── 모니터링 스택: 수집기(Prometheus) + 화면(Grafana) ──────────────
   prometheus:
@@ -59,7 +45,4 @@ services:
     depends_on:
       - prometheus
 
-
-volumes:
-  bookstore-data:
 

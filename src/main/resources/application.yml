@@ -1,17 +1,21 @@
 spring:
   # 접속 정보는 환경변수로 덮어쓸 수 있다. 기본값은 compose 의 db 컨테이너(호스트 5433).
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/db_project}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/db_project}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:tpdms159}
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     show-sql: true
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   # 로그 한 줄마다 요청 id 가 찍힙니다. RequestIdFilter 가 MDC 에 넣어 준 값입니다.
@@ -28,3 +32,8 @@ management:
     web:
       exposure:
         include: health,info,prometheus
+
+app:
+  s3:
+    bucket: ${S3_BUCKET:bookstore-khs}
+    region: ${AWS_REGION:ap-northeast-2}

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 // ddl-auto: create 라서 앱을 다시 띄울 때마다 DB 가 비워진다 — 시드 데이터를 넣어준다
-@Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
